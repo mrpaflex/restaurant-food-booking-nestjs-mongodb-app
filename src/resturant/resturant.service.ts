@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
+import { Query } from 'express-serve-static-core';
 
 @Injectable()
 export class ResturantService {
@@ -11,8 +12,21 @@ export class ResturantService {
     private restaurantModel: Model<Restaurant>
     ){}
 
-   async findall(): Promise<Restaurant[]>{
-    return await this.restaurantModel.find()
+    //this is to search for restaurant 
+   async findall(query: Query): Promise<Restaurant[]>{
+    const resPerPage = 3;
+    const currntPage = Number(query.page) || 1;
+    const skip = resPerPage * (currntPage-1);
+
+    const keyword = query.keyword ? {
+        nameofrestuarant:{
+            $regex: query.keyword,
+            $options: 'i'
+        }
+    }:{}
+    return await this.restaurantModel.find({...keyword})
+    .limit(resPerPage)
+    .skip(skip)
 
    }
 

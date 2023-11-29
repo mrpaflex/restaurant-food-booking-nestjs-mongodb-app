@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ResturantService } from './resturant.service';
 import { Restaurant } from './schema/resturant.schema';
 import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
+import { Query as ExpressQuery } from 'express-serve-static-core'
 
 @Controller('resturant')
 export class ResturantController {
@@ -12,8 +13,8 @@ export class ResturantController {
    
 
     @Get('findall')
-    async findall(): Promise<Restaurant[]>{
-        return await this.resturantService.findall()
+    async findall(@Query() query: ExpressQuery): Promise<Restaurant[]>{
+        return await this.resturantService.findall(query)
         
     }
 
