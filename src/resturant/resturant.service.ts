@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
 import { Query } from 'express-serve-static-core';
-import APIFeatures from 'src/utils/locationApi.utils';
+import APIFeatures, { deleteimages, uploadImages } from 'src/utils/locationApi.utils';
 
 @Injectable()
 export class ResturantService {
@@ -47,9 +47,6 @@ export class ResturantService {
     }
 
     const location = await APIFeatures.getRestaurantLocation(body.address)
-
-    console.log(location)
-
     const createRestuarant = await this.restaurantModel.create({
         ...body,
         location
@@ -78,11 +75,35 @@ export class ResturantService {
    }
 
    async deleteRestaurant(id: string): Promise<any>{
-    await this.findrestuarantById(id)
-   const restaurant = await this.restaurantModel.findByIdAndDelete(id)
+    const restaurant = await this.findrestuarantById(id);
+
+    await this.deleteimages(restaurant.images)
+    
+    await this.restaurantModel.findByIdAndDelete(restaurant)
     return{
         info: `restaurant with id ${id} is succesffully deleted`
     }
    }
+
+   //update restaurant images
+   async uploadimages(id, files){
+    await this.findrestuarantById(id);
+    const images = await uploadImages(files)
+
+    const restaurant = await this.restaurantModel.findByIdAndUpdate(id, {
+        images: images as Object[],
+    },{
+        new: true,
+        runValidators: true
+    })
+
+    return restaurant;
  
+}
+
+async deleteimages(images){
+    const deletedimages = await deleteimages(images)
+    return deletedimages
+}
+
 }

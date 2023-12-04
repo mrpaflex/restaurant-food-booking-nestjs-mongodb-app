@@ -35,6 +35,7 @@ export class Restaurant{
     @Prop()
     address: string;
 
+    @Prop({default: null})
     images?: object[]
 
     @Prop({type: Object, ref: 'Location'})
