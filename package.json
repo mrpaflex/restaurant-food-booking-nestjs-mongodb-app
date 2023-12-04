@@ -29,7 +29,9 @@
     "@types/express-serve-static-core": "^4.17.41",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv": "^16.3.1",
     "mongoose": "^8.0.1",
+    "node-geocoder": "^4.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },

@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
 import { Query } from 'express-serve-static-core';
+import APIFeatures from 'src/utils/locationApi.utils';
 
 @Injectable()
 export class ResturantService {
@@ -45,11 +46,16 @@ export class ResturantService {
         );
     }
 
+    const location = await APIFeatures.getRestaurantLocation(body.address)
+
+    console.log(location)
+
     const createRestuarant = await this.restaurantModel.create({
-        ...body
+        ...body,
+        location
     })
 
-    await createRestuarant.save()
+    //await createRestuarant.save()
    
     return createRestuarant
    }

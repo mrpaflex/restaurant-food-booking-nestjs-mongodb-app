@@ -5,6 +5,20 @@ import { Catagory } from "../enum/enums";
 export type ResturantHydrated = HydratedDocument<Restaurant>
 
 @Schema()
+export class Location{
+    @Prop({type: String, enum: ['Point']})
+    type: string;
+
+    @Prop({index: '2dsphere'})
+    coordinates: Number[];
+    formattedAddress: string;
+    city: string;
+    state: string;
+    zipcode: string;
+    country: string;
+};
+
+@Schema()
 export class Restaurant{
     @Prop()
     nameofrestuarant: string;
@@ -22,6 +36,9 @@ export class Restaurant{
     address: string;
 
     images?: object[]
+
+    @Prop({type: Object, ref: 'Location'})
+    location?: Location
 
     // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
     // userid: mongoose.Types.ObjectId;

@@ -14,8 +14,7 @@ export class ResturantController {
 
     @Get('findall')
     async findall(@Query() query: ExpressQuery): Promise<Restaurant[]>{
-        return await this.resturantService.findall(query)
-        
+        return await this.resturantService.findall(query)       
     }
 
     @Post('create')
