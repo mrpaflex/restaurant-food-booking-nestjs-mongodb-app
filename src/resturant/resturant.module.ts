@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ResturantController } from './resturant.controller';
 import { ResturantService } from './resturant.service';
-import { mongooseFeature } from 'src/common/moongooseConnnect/moogoose.connect';
+import { RestaurantMongooseFeature } from 'src/common/moongooseConnnect/moogoose.connect';
 
 @Module({
-  imports: [mongooseFeature],
+  imports: [RestaurantMongooseFeature],
   controllers: [ResturantController],
   providers: [ResturantService]
 })

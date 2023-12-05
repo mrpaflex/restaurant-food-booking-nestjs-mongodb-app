@@ -4,6 +4,7 @@ import { S3 } from 'aws-sdk';
 import { Location } from '../resturant/schema/resturant.schema';
 import * as dotenv from 'dotenv'
 import { resolve } from 'path';
+import { JwtService } from '@nestjs/jwt';
 dotenv.config()
 
 //import { ConfigService } from "@nestjs/config";
@@ -159,4 +160,13 @@ export async function deleteimages(images){
             }
         })
     })
+}
+
+export async  function jwtassigntoken(userid: string, jwtService: JwtService, ):Promise<string>{
+    const payload = {id: userid}
+
+    const token = await jwtService.signAsync(payload)
+
+    return token;
+
 }

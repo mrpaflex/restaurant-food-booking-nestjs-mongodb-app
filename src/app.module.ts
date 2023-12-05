@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ResturantModule } from './resturant/resturant.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,7 +15,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService]
     }),
-    ResturantModule
+    ResturantModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],
