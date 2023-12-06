@@ -70,7 +70,7 @@ export class ResturantService {
    async updaterestaurant( user: User, id: string, body: UpdateRestaurantDTo): Promise<Restaurant>{
     const restaurant = await this.findrestuarantById(id)
     if (user._id.toString() !== restaurant.userid.toString()) {
-        
+
         console.log(user._id, restaurant.userid)
         throw new HttpException('you can only edit your account', HttpStatus.FORBIDDEN)
     }
@@ -81,8 +81,13 @@ export class ResturantService {
     return updateresturant
    }
 
-   async deleteRestaurant(id: string): Promise<any>{
+   async deleteRestaurant(user: User, id: string): Promise<any>{
     const restaurant = await this.findrestuarantById(id);
+    if (user._id.toString() !== restaurant.userid.toString()) {
+
+        console.log(user._id, restaurant.userid)
+        throw new HttpException('you can only delete your account', HttpStatus.FORBIDDEN)
+    }
 
     await this.deleteimages(restaurant.images)
     
@@ -111,6 +116,9 @@ export class ResturantService {
 }
 
 async deleteimages(images){
+    if (images.length === 0) {
+        return true
+    }
     const deletedimages = await deleteimages(images)
     return deletedimages
 }

@@ -45,8 +45,10 @@ export class ResturantController {
     }
 
     @Delete('delete/:id')
-    async deleteRestaurant(@Param('id') id: string):Promise<any>{
-        return await this.resturantService.deleteRestaurant(id)
+    @UseGuards(JwtAuthGuards, RolesGuard)
+    @Roles(Role.ADMIN, Role.USER)
+    async deleteRestaurant(@CurrentUser() user: User, @Param('id') id: string):Promise<any>{
+        return await this.resturantService.deleteRestaurant(user, id)
     }
 
     @Put('upload/:id')
