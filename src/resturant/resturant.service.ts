@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
 import { Query } from 'express-serve-static-core';
-import APIFeatures, { deleteimages, uploadImages } from 'src/utils/locationApi.utils';
+import APIFeatures, { deleteddimages, uploadImages } from 'src/utils/locationApi.utils';
 import { User } from 'src/auth/user/schema/user.schema';
 
 @Injectable()
@@ -114,12 +114,15 @@ export class ResturantService {
     
  
 }
+// async deleteresmealId(id: string){
+//     const mealId = await this.restaurantModel.findByIdAndDelete()
+// }
 
 async deleteimages(images){
     if (images.length === 0) {
         return true
     }
-    const deletedimages = await deleteimages(images)
+    const deletedimages = await deleteddimages(images)
     return deletedimages
 }
 

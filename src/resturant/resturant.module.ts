@@ -10,6 +10,7 @@ import { AuthModule } from 'src/auth/auth.module';
     RestaurantMongooseFeature
   ],
   controllers: [ResturantController],
-  providers: [ResturantService]
+  providers: [ResturantService],
+  exports: [ResturantService],
 })
 export class ResturantModule {}

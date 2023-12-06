@@ -3,6 +3,7 @@ import { ResturantModule } from './resturant/resturant.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { MealModule } from './meal/meal.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,7 +17,8 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService]
     }),
     ResturantModule,
-    AuthModule
+    AuthModule,
+    MealModule
   ],
   controllers: [],
   providers: [],

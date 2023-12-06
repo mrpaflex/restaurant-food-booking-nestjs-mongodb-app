@@ -131,7 +131,7 @@ export async function uploadImages(files) {
 }
 
 
-export async function deleteimages(images){
+export async function deleteddimages(images){
     const s3 = new S3({
         accessKeyId: process.env.AWS_ACCESS_ID,
         secretAccessKey: process.env.AWS_ACCESS_SECRET_KEY
