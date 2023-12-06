@@ -52,4 +52,17 @@ export class AuthService {
     const token = await jwtassigntoken(user._id, this.jwtService)
         return {token}
     }
+
+    //not you wil have this two function later and take it to the normal user module
+    async finduserbyId(id: string): Promise<User>{
+        const user = await this.userModel.findById(id);
+        if (!user) {
+            throw new HttpException('user with such id does not exist', HttpStatus.NOT_FOUND)
+        }
+        return user
+    }
+
+    async getalluser(){
+    return await this.userModel.find()
+    }
 }

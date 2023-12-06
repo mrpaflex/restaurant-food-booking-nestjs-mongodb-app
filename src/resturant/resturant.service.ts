@@ -6,6 +6,7 @@ import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
 import { Query } from 'express-serve-static-core';
 import APIFeatures, { deleteimages, uploadImages } from 'src/utils/locationApi.utils';
+import { User } from 'src/auth/user/schema/user.schema';
 
 @Injectable()
 export class ResturantService {
@@ -31,7 +32,7 @@ export class ResturantService {
 
    }
 
-   async create(body: CreateResturantDTO): Promise<Restaurant>{
+   async create(body: CreateResturantDTO, user: User): Promise<Restaurant>{
     const restaurants = await this.restaurantModel.findOne({
         email: body.email
     })
@@ -49,7 +50,8 @@ export class ResturantService {
     const location = await APIFeatures.getRestaurantLocation(body.address)
     const createRestuarant = await this.restaurantModel.create({
         ...body,
-        location
+        location,
+        userid: user._id
     })
 
     //await createRestuarant.save()

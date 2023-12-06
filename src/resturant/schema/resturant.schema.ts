@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose, { HydratedDocument } from "mongoose";
+import  * as moongoose from "mongoose";
 import { Catagory } from "../enum/enums";
+import { User } from "src/auth/user/schema/user.schema";
 
-export type ResturantHydrated = HydratedDocument<Restaurant>
+//export type ResturantHydrated = HydratedDocument<Restaurant>
 
 @Schema()
 export class Location{
@@ -40,6 +41,9 @@ export class Restaurant{
 
     @Prop({type: Object, ref: 'Location'})
     location?: Location
+
+    @Prop({type: moongoose.Schema.Types.ObjectId, ref: 'User'})
+    userid: User
 
     // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
     // userid: mongoose.Types.ObjectId;

@@ -1,10 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ResturantService } from './resturant.service';
 import { Restaurant } from './schema/resturant.schema';
 import { CreateResturantDTO } from './dto/create-restuarant.dto';
 import { UpdateRestaurantDTo } from './dto/update-restuarant.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core'
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuards } from 'src/auth/guards/jwt.guards';
+import { CurrentUser } from 'src/auth/decorators/current.user.decorator';
+import { User } from 'src/auth/user/schema/user.schema';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/user/enum/user.roles';
 
 @Controller('resturant')
 export class ResturantController {
@@ -19,8 +26,10 @@ export class ResturantController {
     }
 
     @Post('create')
-    async createRestaurant(@Body()body: CreateResturantDTO): Promise<Restaurant>{
-        return await this.resturantService.create(body)
+    @UseGuards(JwtAuthGuards, RolesGuard)
+    @Roles(Role.ADMIN)
+    async createRestaurant(@Body()body: CreateResturantDTO, @CurrentUser() user: User): Promise<Restaurant>{
+        return await this.resturantService.create(body, user)
     }
 
     @Get('findbyid/:id')

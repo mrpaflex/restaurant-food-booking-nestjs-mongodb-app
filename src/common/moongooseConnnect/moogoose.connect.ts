@@ -13,6 +13,7 @@ export const userMongooseFeature = MongooseModule.forFeature([
 ]);
 
 export const Jwtmodule = JwtModule.registerAsync({
+  global: true,
   inject: [ConfigService],
   useFactory: (config: ConfigService)=>{
     return{
