@@ -67,9 +67,14 @@ export class ResturantService {
     return restuarants
    }
 
-   async updaterestaurant(id: string, body: UpdateRestaurantDTo): Promise<Restaurant>{
-    await this.findrestuarantById(id)
-    const updateresturant = await this.restaurantModel.findByIdAndUpdate(id, body,{
+   async updaterestaurant( user: User, id: string, body: UpdateRestaurantDTo): Promise<Restaurant>{
+    const restaurant = await this.findrestuarantById(id)
+    if (user._id.toString() !== restaurant.userid.toString()) {
+        
+        console.log(user._id, restaurant.userid)
+        throw new HttpException('you can only edit your account', HttpStatus.FORBIDDEN)
+    }
+    const updateresturant = await this.restaurantModel.findByIdAndUpdate(restaurant, body,{
         new: true,
         runValidators: true
     })

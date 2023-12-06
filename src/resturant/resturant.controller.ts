@@ -27,7 +27,7 @@ export class ResturantController {
 
     @Post('create')
     @UseGuards(JwtAuthGuards, RolesGuard)
-    @Roles(Role.ADMIN)
+    @Roles(Role.ADMIN, Role.USER)
     async createRestaurant(@Body()body: CreateResturantDTO, @CurrentUser() user: User): Promise<Restaurant>{
         return await this.resturantService.create(body, user)
     }
@@ -38,8 +38,10 @@ export class ResturantController {
     }
 
     @Put('update/:id')
-    async updateRestaurant(@Param('id') id: string, @Body() body: UpdateRestaurantDTo): Promise<Restaurant>{
-        return await this.resturantService.updaterestaurant(id, body)
+    @UseGuards(JwtAuthGuards, RolesGuard)
+    @Roles(Role.ADMIN, Role.USER)
+    async updateRestaurant(@CurrentUser() user: User, @Param('id') id: string, @Body() body: UpdateRestaurantDTo): Promise<Restaurant>{
+        return await this.resturantService.updaterestaurant(user, id, body)
     }
 
     @Delete('delete/:id')
